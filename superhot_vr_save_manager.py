@@ -159,16 +159,16 @@ def wizard():
                 current_profile = None
         db["current_profile"] = current_profile
         write_db()
-    files = []
-    save_labels = []
-    nprint("Getting files in Superhot VR directory: ")
-    for f in os.listdir(full("%userprofile%\AppData\LocalLow\SUPERHOT_Team\SUPERHOT_VR")):
-        if os.path.isfile(full("%userprofile%\AppData\LocalLow\SUPERHOT_Team\SUPERHOT_VR\{}".format(f))) and f.startswith("VRsuper.hot."):
-            files.append(f)
-            save_labels.append(f[12:])
-    print("Done!")
     action = "a"
     while action != "Exit":
+        files = []
+        save_labels = []
+        nprint("Getting files in Superhot VR directory: ")
+        for f in os.listdir(full("%userprofile%\AppData\LocalLow\SUPERHOT_Team\SUPERHOT_VR")):
+            if os.path.isfile(full("%userprofile%\AppData\LocalLow\SUPERHOT_Team\SUPERHOT_VR\{}".format(f))) and f.startswith("VRsuper.hot."):
+                files.append(f)
+                save_labels.append(f[12:]) 
+        print("Done!")
         action = get_input("Current Profile: {}\nPick an option: ".format(current_profile), ["Rename current profile", "Change profile", "Create new profile", "Delete profile", "Exit"])
         if action == "Rename current profile":
             if not os.path.isfile(full("%userprofile%\AppData\LocalLow\SUPERHOT_Team\SUPERHOT_VR\VRsuper.hot")):
