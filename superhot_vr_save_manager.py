@@ -119,7 +119,7 @@ def get_input(question, answers, disable_close=False, title="Unofficial Superhot
             if values["option"] in answers:
                 window.Close()
                 return values["option"]
-        elif event is None:
+        else:
             sys.exit(0)
 
 def run_checks():
@@ -127,6 +127,7 @@ def run_checks():
 
     Returns:
         str: "first_time" if first time being run, "pass" otherwise.
+
     """
     print("Running checks...")
     nprint("On Windows: ")
@@ -139,7 +140,7 @@ def run_checks():
     nprint("Save folder exists: ")
     if not os.path.isdir(save_dir):
         print("Missing")
-        sg.Popup("You haven't created a savefile for Superhot VR!")
+        sg.Popup("Please run Superhot VR before using this save manager!")
         sys.exit(1)
     else:
         print("Good to go!")
@@ -190,8 +191,11 @@ def wizard():
                     if not str(current_profile).replace("-", "").replace("_", "").isalnum():
                         sg.Popup("Name can only contain letters, numbers, -'s, and _'s!")
                         current_profile = None
-                    if len("{}.{}".format(save_path, current_profile)) > max_path_chars:
+                    elif len("{}.{}".format(save_path, current_profile)) > max_path_chars:
                         sg.Popup("Filename too long!")
+                        current_profile = None
+                    elif os.path.isfile("{}.{}".format(save_path, current_profile)):
+                        sg.Popup("Name already in use by another profile!")
                         current_profile = None
                 db["current_profile"] = current_profile
                 write_db()
